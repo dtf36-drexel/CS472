@@ -72,6 +72,22 @@ int main(int argc, char *argv[]) {
     wordsToArp(&arp, ex1w);
     arp_toString(&arp, output_buff, sizeof(output_buff) );
     printf("ARP PACKET BY BYTES\n %s \n", output_buff);
+
+    bytesToArp(&arp, ex2b);
+    arp_toString(&arp, output_buff, sizeof(output_buff) );
+    printf("ARP PACKET BY BYTES\n %s \n", output_buff);
+
+    wordsToArp(&arp, ex2w);
+    arp_toString(&arp, output_buff, sizeof(output_buff) );
+    printf("ARP PACKET BY BYTES\n %s \n", output_buff);
+
+    bytesToArp(&arp, ex3b);
+    arp_toString(&arp, output_buff, sizeof(output_buff) );
+    printf("ARP PACKET BY BYTES\n %s \n", output_buff);
+
+    wordsToArp(&arp, ex3w);
+    arp_toString(&arp, output_buff, sizeof(output_buff) );
+    printf("ARP PACKET BY BYTES\n %s \n", output_buff);
 }
 
 static void bytesToArp(arp_ether_ipv4 *arp, u_int8_t *buff){
@@ -142,21 +158,25 @@ void  arp_toString(arp_ether_ipv4 *ap, char *dstStr, int len) {
      tpa:       192.168.1.1 
      tha:       aa:bb:cc:dd:ee:ff 
     */
-    printf("ARP PACKET DETAILS\n");
-    printf("\thtype:\t0x%04x\n", ap->htype);
-    printf("\tptype:\t0x%04x\n", ap->ptype);
-    printf("\thlen:\t%u\n", ap->hlen);
-    printf("\tplen:\t%u\n", ap->plen);
-    printf("\top:\t%u\n", ap->op);
     char spa_str[16], tpa_str[16], sha_str[18], tha_str[18];
     ip_toStr (ap->spa, spa_str, sizeof(spa_str));
     mac_toStr(ap->sha, sha_str, sizeof(sha_str));
     ip_toStr (ap->tpa, tpa_str, sizeof(tpa_str));
     mac_toStr(ap->tha, tha_str, sizeof(tha_str));
-    printf("\tspa:\t%s\n", spa_str);
-    printf("\tsha:\t%s\n", sha_str);
-    printf("\ttpa:\t%s\n", tpa_str);
-    printf("\ttha:\t%s\n", tha_str);
+    snprintf(dstStr, len,
+        "\thtype:\t0x%04x\n"
+        "\t ptype:\t0x%04x\n"
+        "\t hlen:\t%u\n"
+        "\t plen:\t%u\n"
+        "\t op:\t%u\n"
+        "\t spa:\t%s\n"
+        "\t sha:\t%s\n"
+        "\t tpa:\t%s\n"
+        "\t tha:\t%s",
+        ap->htype, ap->ptype,
+        ap->hlen, ap->plen, ap->op,
+        spa_str,  sha_str,
+        tpa_str,  tha_str);
 
 }
 
